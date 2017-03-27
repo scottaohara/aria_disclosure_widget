@@ -2,8 +2,6 @@
 
   ARIA Toggle Block
 
-  ...
-
 --------------------------------------------------------------------- */
 
 .atblock {
@@ -43,12 +41,4 @@
   max-height: 40vh;
   padding: 4px 8px;
   visibility: visible;
-}
-
-
-/*
-  create a safe space for a visual indicator icon
- */
-[data-action="aria-accordion"] .atblock__title__trigger {
-  padding-right: 1.25em;
 }
