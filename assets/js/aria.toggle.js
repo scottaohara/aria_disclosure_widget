@@ -1,23 +1,33 @@
 ;(function ( w, doc ) {
-  //enable strict mode
+  // enable strict mode
   'use strict';
-
-  // Local object for method references
+  /**
+   * Local object for method references
+   * and define script meta-data
+   */
   var ARIAtoggle = {};
-
-  // Meta
   ARIAtoggle.NS      = "ARIAtoggle";
   ARIAtoggle.AUTHOR  = "Scott O'Hara";
   ARIAtoggle.VERION  = "0.1.0";
   ARIAtoggle.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
-  // Create toggle block instances
+  /**
+   * Global Create
+   *
+   * This function validates that the minimum
+   * required markup is present to create the
+   * ARIA widget(s). Any additional markup elements
+   * or attributes that do not exist in the found
+   * required markup patterns will be generated
+   * via this function.
+   */
   ARIAtoggle.createToggle = function () {
-    var widget = doc.querySelectorAll('[data-action="aria-toggle-block"]');
-    // setup / cache vars
+    // hooks
+    var widget = doc.querySelectorAll('[data-action="aria-toggle"]');
     var self;
     var i;
-    // selectors
+
+    // BEM classes for components
     var widgetClass   = 'atblock';
     var widgetTitle   = widgetClass + '__title';
     var widgetTrigger = widgetTitle + '__trigger';
