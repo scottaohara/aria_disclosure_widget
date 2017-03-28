@@ -5,7 +5,6 @@
 --------------------------------------------------------------------- */
 
 .atblock {
-  border: 1px solid;
   position: relative;
 }
 
@@ -17,28 +16,33 @@
 }
 
 .atblock__title__trigger {
-  border-bottom: 1px solid;
+  border: 1px solid;
   display: block;
   padding: 4px 8px;
+  position: relative;
+  text-decoration: none;
+  z-index: 2;
+}
 
+.atblock__title__trigger:hover,
+.atblock__title__trigger:focus {
+  background: #c12f48;
+  border-color: #c12f48;
+  color: #fff;
 }
 
 
 /* these need to be siblings. so as to ensure
    that content isn't hidden if a title doesn't exist */
 .atblock__title + .atblock__panel {
-  max-height: 0vh;
-  padding: 0px 8px;
-  transition:
-    padding .2s ease-in-out,
-    max-height .2s ease-in-out,
-    visibility .2s ease-in-out;
+  border: 1px solid;
+  padding: 4px 8px;
+  height: 0px;
   visibility: hidden;
 }
 
 .atblock__title + .atblock__panel[aria-hidden="false"],
 .no-js .atblock__title + .atblock__panel:target {
-  max-height: 40vh;
-  padding: 4px 8px;
+  height: auto;
   visibility: visible;
 }
