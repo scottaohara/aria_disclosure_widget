@@ -8,41 +8,39 @@
   position: relative;
 }
 
-.atblock__title,
+.atblock__trigger,
 .atblock__panel {
   margin: 0;
   overflow: hidden;
   position: relative;
 }
 
-.atblock__title__trigger {
+.atblock__trigger__button {
   border: 1px solid;
-  display: block;
+  display: inline-block;
   padding: 4px 8px;
   position: relative;
   text-decoration: none;
   z-index: 2;
 }
 
-.atblock__title__trigger:hover,
-.atblock__title__trigger:focus {
+.atblock__trigger__button:hover,
+.atblock__trigger__button:focus {
   background: #c12f48;
   border-color: #c12f48;
   color: #fff;
 }
 
 
-/* these need to be siblings. so as to ensure
-   that content isn't hidden if a title doesn't exist */
-.atblock__title + .atblock__panel {
+.atblock__panel {
   border: 1px solid;
   padding: 4px 8px;
   height: 0px;
   visibility: hidden;
 }
 
-.atblock__title + .atblock__panel[aria-hidden="false"],
-.no-js .atblock__title + .atblock__panel:target {
+.atblock__panel[aria-hidden="false"],
+.no-js .atblock__panel:target {
   height: auto;
   visibility: visible;
 }

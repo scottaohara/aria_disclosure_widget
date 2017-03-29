@@ -8,7 +8,7 @@
   var ARIAtoggle = {};
   ARIAtoggle.NS      = "ARIAtoggle";
   ARIAtoggle.AUTHOR  = "Scott O'Hara";
-  ARIAtoggle.VERION  = "0.1.0";
+  ARIAtoggle.VERION  = "0.2.0";
   ARIAtoggle.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
   /**
@@ -29,8 +29,8 @@
 
     // BEM classes for components
     var widgetClass   = 'atblock';
-    var widgetTitle   = widgetClass + '__title';
-    var widgetTrigger = widgetTitle + '__trigger';
+    var widgetTrigger = widgetClass + '__trigger';
+    var widgetButton  = widgetTrigger + '__button';
     var widgetPanel   = widgetClass + '__panel';
 
     // if widgets exist, loop through all instances
@@ -40,7 +40,7 @@
       self = widget[i];
       // panel selector
       var panel = self.querySelector('.' + widgetPanel);
-      var title = self.querySelector('.' + widgetTitle);
+      var title = self.querySelector('.' + widgetTrigger);
       // check to see if there are the necessary panel
       // and title hooks to continue on with this script
       // if not, then it doesn't get to be a toggle block
@@ -76,9 +76,9 @@
         }
 
         // now that all triggers have been successfully created
-        // grab them again and add the widgetTrigger class to each
+        // grab them again and add the widgetButton class to each
         var trigger = self.querySelector('a');
-        trigger.classList.add(widgetTrigger);
+        trigger.classList.add(widgetButton);
 
         // another safety precaution, make sure the HREF of the
         // trigger and the panel's ID match.
