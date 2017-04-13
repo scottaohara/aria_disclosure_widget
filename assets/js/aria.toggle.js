@@ -8,7 +8,7 @@
   var ARIAtoggle = {};
   ARIAtoggle.NS      = "ARIAtoggle";
   ARIAtoggle.AUTHOR  = "Scott O'Hara";
-  ARIAtoggle.VERION  = "0.2.0";
+  ARIAtoggle.VERION  = "0.2.1";
   ARIAtoggle.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
   /**
@@ -54,7 +54,7 @@
         }
         else {
           setID = 'atb_' + Math.floor(Math.random() * 999) + 1;
-          panel.setAttribute('id', setID);
+          panel.id = setID;
         }
 
         // check to see if the title has an <a> element as a child
@@ -84,7 +84,7 @@
         // trigger and the panel's ID match.
         var triggerHREF = trigger.getAttribute('href').split('#')[1];
         if ( setID !== triggerHREF ) {
-          panel.setAttribute('id', triggerHREF);
+          panel.id = triggerHREF;
         }
         // setup necessary ARIA roles for the 'button'
         trigger.setAttribute('role', 'button');
