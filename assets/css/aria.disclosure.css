@@ -1,0 +1,75 @@
+/** --------------------------------------------------------------------
+
+  ARIA Toggle Block
+
+--------------------------------------------------------------------- */
+
+.disclosure {
+  position: relative;
+}
+
+.disclosure .disclosure__trigger,
+.disclosure .disclosure__content {
+  display: inline-block;
+  margin: 0;
+  overflow: hidden;
+}
+
+.disclosure .disclosure__trigger {
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(0,0,0,.75);
+  cursor: default;
+  font-size: inherit;
+  line-height: normal;
+  padding: .25em 1.75em .25em .5em;
+  position: relative;
+  text-decoration: none;
+  z-index: 2;
+}
+
+.disclosure .disclosure__trigger:after {
+  border-left: .35em solid transparent;
+  border-right: .35em solid transparent;
+  border-top: .35em solid #000;
+  bottom: 0;
+  content: "";
+  height: 0;
+  margin: auto;
+  position: absolute;
+  right: .25em;
+  top: 0;
+  width: 0;
+}
+
+
+
+
+.disclosure .disclosure__trigger:hover,
+.disclosure .disclosure__trigger:focus {
+  background: #c12f48;
+  border-color: #c12f48;
+  color: #fff;
+}
+
+
+.disclosure .disclosure__content[hidden] {
+  height: 0px;
+  visibility: hidden;
+}
+
+.disclosure .disclosure__content {
+  padding: .75em .5em;
+  height: auto;
+  visibility: visible;
+  width: 100%;
+}
+
+.disclosure[data-flyout] .disclosure__content {
+  background: #fafafa;
+  border: 1px solid;
+  left: 0;
+  position: absolute;
+  top: calc(100% + .25em);
+  z-index: 2;
+}

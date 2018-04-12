@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>
-      ARIA Toggle Block
+      ARIA Disclosure Widget
     </title>
     <meta name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,9 +16,10 @@
     <style>
     *,*:after,*:before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;font-family:arial}*{margin-bottom:0}body,html{background:#fafafa;color:#450c13;font-size:18px;line-height:1.3;margin:0;padding:0;-moz-text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}.content-area{padding:20px;margin:auto}.mxw-600{max-width:600px}a{color:#921c2b}a:hover,a:focus{color:#c12f48}hr{margin:20px 0;}p{margin:0;}button:-moz-focusring{outline:0;}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}[disabled]{opacity:.5;}[role="banner"]{margin-bottom:32px;}h1{margin-bottom:20px;}
       p:not(:last-child){margin-bottom: 1.2em}
+      [aria-disabled]{opacity:.65;}
     </style>
 
-    <link rel="stylesheet" href="assets/css/aria.toggle.css" />
+    <link rel="stylesheet" href="assets/css/aria.disclosure.css" />
   </head>
 
   <body id="body">
@@ -27,17 +28,10 @@
 
       <header role="banner">
         <h1>
-          <abbr title="Accessible Rich Internet Applications">ARIA</abbr> Toggle Blocks
+          <abbr title="Accessible Rich Internet Applications">ARIA</abbr> Disclosure Widget
         </h1>
         <p>
-          Example of a progressively enhanced content toggle area. The toggled content
-          is controlled by a link that is progressively enhanced into a button,
-          so the toggle action can function via CSS, in instances where JavaScript
-          may not be enabled.
-        </p>
-        <p>
-          Please review the following examples to see how this component may be
-          utilized, and the options it contains.
+          ...
         </p>
       </header>
 
@@ -48,145 +42,66 @@
         </h2>
 
 
-        <p>
-          Ideal Markup scenario:
+        <div id="derp" data-disclosure>
+          <button class="disclosure__trigger" hidden>
+            Show More
+          </button>
+          <div class="disclosure__content">
+            <p>
+              oh hi how you doing?
+            </p>
+            <p>
+              I got two paragraphs here
+            </p>
+            <a href="#!">
+              and a link
+            </a>
+          </div>
+        </div>
+
+        <hr>
+
+        <p data-disclosure data-open>
+          Need an example of
+          <span class="disclosure__trigger">
+            a widget in line with a paragraph?
+          </span>
+          <span class="disclosure__content">
+            oh hi how you doing?
+          </span>
         </p>
-        <div data-action="aria-toggle"
-          class="atblock">
-          <h3 class="atblock__trigger">
-            <a href="#demo_1">
-              Example 1
-            </a>
-          </h3>
-
-          <div id="demo_1" class="atblock__panel">
-            <p>
-              content that is toggled
-            </p>
-          </div>
-        </div>
 
         <hr>
 
-        <div data-action="aria-toggle"
-          data-expanded
-          class="atblock">
-          <h3 class="atblock__trigger">
-            <a href="#demo_2">
-              Example 2: Open by default
-            </a>
-          </h3>
+        <p>
+          What could you possibly want
+          <span data-disclosure data-flyout data-open>
+            <span class="disclosure__trigger">
+              to know more about?
+            </span>
+            <span class="disclosure__content">
+              Sorry, nothing to see here after all
+            </span>
+          </span>
 
-          <div id="demo_2" class="atblock__panel">
-            <p>
-              content that is toggled
-            </p>
-          </div>
-        </div>
+        </p>
 
         <hr>
 
-        <div data-action="aria-toggle"
-          class="atblock">
-          <h3 class="atblock__trigger">
-            <a href="#incorrect">
-              Example 3: will fail in no-js scenarios
-            </a>
-          </h3>
-
-          <div id="demo_2a" class="atblock__panel">
-            <p>
-              content that is toggled
-            </p>
-          </div>
-
-          <p>
-            Due to a mismatch in the panel id and the href, the appropriate link between the anchor and the div is not correct. The script will fix this for you, but if JavaScript is disabled, this won't function properly.
-          </p>
-        </div>
-
-        <hr>
-
-        <div data-action="aria-toggle"
-          class="atblock">
-          <h3 class="atblock__trigger">
-            Example 4:
-            Failed Toggle - no panel
-          </h3>
-
-          <div>
-            <p>
-              This failed the toggle block create function because has no set panel class.
-            </p>
-          </div>
-        </div>
-
-        <hr>
-
-
-        <div data-action="aria-toggle"
-          class="atblock">
-          <h3>
-            Example 5:
-            Failed Toggle - no trigger
-          </h3>
-
-          <div class="atblock__panel">
-            <p>
-              This failed the toggle block create function because has no set trigger class.
-            </p>
-          </div>
-        </div>
-
-        <hr>
-
-        <div data-action="aria-toggle"
-          class="atblock">
-          <h3 class="atblock__trigger">
-            Example 6: Minimal Markup Setup
-          </h3>
-
-          <div class="atblock__panel">
-            <p>
-              content that is toggled
-            </p>
-          </div>
-        </div>
-
-        <hr />
-
-        <div data-action="aria-toggle"
-          class="atblock">
-          <h3 class="atblock__trigger">
-            <span>Example 7: Parent Toggle</span>
-          </h3>
-
-          <div class="atblock__panel">
-            <p style="margin-bottom: 12px">
-              content that is toggled
-            </p>
-            <div data-action="aria-toggle"
-              data-expanded
-              class="atblock">
-              <h3 class="atblock__trigger">
-                <span>Example 8: Nested Toggle (don't do this...)</span>
-              </h3>
-
-              <div class="atblock__panel">
-                <p>
-                  Maybe you should be using an accordion instead?
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p>
+          <span data-disclosure="Open Content">
+            <span class="disclosure__content">
+              content goes inside of here. It can be a little or a lot.  This would be a little.
+            </span>
+          </span>
+        </p>
 
 
       </main>
 
     </div>
 
-    <script src="assets/js/aria.toggle.js"></script>
+    <script src="assets/js/aria.disclosure.js"></script>
   </body>
 </html>
 
