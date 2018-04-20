@@ -1,6 +1,7 @@
-# ARIA Toggle Blocks (hide/show areas)  
+# ARIA Disclosure Widgets  
+Progressively enhanced disclosure widgets (show/hide toggle areas) built with vanilla JavaScript and ARIA attributes.
 
-Progressively enhanced hide/show content areas with vanilla JS &amp; appropriate ARIA attributes.
+A disclosure widget consists of a button that toggles the state of its associated content to be expanded or collapsed. In native HTML, a disclosure widget would best parallel to a `detail` and `summary` markup pattern.
 
 
 ## How does it work?  
