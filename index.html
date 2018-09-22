@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en-us" class="no-js">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>
       ARIA Disclosure Widget
@@ -42,11 +42,11 @@
         </h2>
 
 
-        <div id="derp" data-disclosure>
-          <button class="disclosure__trigger" hidden>
+        <div id="ex" data-disclosure>
+          <button data-disclosure-btn disabled hidden>
             Show More
           </button>
-          <div class="disclosure__content">
+          <div data-disclosure-content>
             <p>
               oh hi how you doing?
             </p>
@@ -61,12 +61,12 @@
 
         <hr>
 
-        <p data-disclosure data-open>
+        <p data-disclosure data-disclosure-open>
           Need an example of
-          <span class="disclosure__trigger">
+          <span data-disclosure-btn>
             a widget in line with a paragraph?
           </span>
-          <span class="disclosure__content">
+          <span data-disclosure-content>
             oh hi how you doing?
           </span>
         </p>
@@ -76,10 +76,7 @@
         <p>
           What could you possibly want
           <span data-disclosure data-flyout data-open>
-            <span class="disclosure__trigger">
-              to know more about?
-            </span>
-            <span class="disclosure__content">
+            <span data-disclosure-content>
               Sorry, nothing to see here after all
             </span>
           </span>
@@ -90,7 +87,7 @@
 
         <p>
           <span data-disclosure="Open Content">
-            <span class="disclosure__content">
+            <span data-disclosure-content>
               content goes inside of here. It can be a little or a lot.  This would be a little.
             </span>
           </span>
@@ -101,7 +98,16 @@
 
     </div>
 
-    <script src="assets/js/aria.disclosure.js"></script>
+    <script src="index.js"></script>
+    <script>
+      var disclosure = '[data-disclosure]';
+      var els = document.querySelectorAll(disclosure);
+
+      // Generate all tab instances
+      for ( var i = 0; i < els.length; i++ ) {
+        var dis = new A11Ydisclosure( els[i] );
+      }
+    </script>
   </body>
 </html>
 
