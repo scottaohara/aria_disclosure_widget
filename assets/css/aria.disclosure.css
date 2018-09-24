@@ -1,6 +1,6 @@
 /** --------------------------------------------------------------------
 
-  ARIA Toggle Block
+  ARIA Disclosure Widget
 
 --------------------------------------------------------------------- */
 
@@ -8,30 +8,38 @@
   position: relative;
 }
 
-.disclosure .disclosure__trigger,
-.disclosure .disclosure__content {
-  display: inline-block;
-  margin: 0;
-  overflow: hidden;
-}
-
-.disclosure .disclosure__trigger {
+/**
+ * Trigger (button) Styles
+ */
+.disclosure__trigger {
   background: none;
   border: 0;
-  border-bottom: 1px solid rgba(0,0,0,.75);
   cursor: default;
+  display: inline-block;
   font-size: inherit;
   line-height: normal;
-  padding: .25em 1.75em .25em .5em;
+  margin: 0;
+  padding: 0 1.5em 0 .25em;
   position: relative;
   text-decoration: none;
+  vertical-align: text-bottom;
   z-index: 2;
 }
 
-.disclosure .disclosure__trigger:after {
+.disclosure__trigger:before {
+  background: #111;
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+}
+
+.disclosure__trigger:after {
   border-left: .35em solid transparent;
   border-right: .35em solid transparent;
-  border-top: .35em solid #000;
+  border-top: .35em solid #111;
   bottom: 0;
   content: "";
   height: 0;
@@ -39,37 +47,66 @@
   position: absolute;
   right: .25em;
   top: 0;
+  transform: rotate(0deg);
+  transform-origin: center center;
+  transition: transform .2s ease-in-out;
   width: 0;
 }
 
-
-
-
-.disclosure .disclosure__trigger:hover,
-.disclosure .disclosure__trigger:focus {
+.disclosure__trigger:hover,
+.disclosure__trigger:focus {
   background: #c12f48;
-  border-color: #c12f48;
   color: #fff;
 }
 
+.disclosure__trigger:hover:before,
+.disclosure__trigger:focus:before,
+.disclosure__trigger[aria-expanded="true"]:before {
+  height: 0;
+}
 
-.disclosure .disclosure__content[hidden] {
+.disclosure__trigger:hover:after,
+.disclosure__trigger:focus:after {
+  border-top-color: #fff;
+}
+
+.disclosure__trigger[aria-expanded="true"]:after {
+  transform: rotate(180deg);
+}
+
+/**
+ * Content Styles
+ */
+.disclosure__content[data-disclosure-content][hidden] {
+  display: inline-block;
   height: 0px;
+  padding: 0em;
   visibility: hidden;
+  width: 0%;
 }
 
-.disclosure .disclosure__content {
-  padding: .75em .5em;
-  height: auto;
-  visibility: visible;
-  width: 100%;
-}
-
-.disclosure[data-flyout] .disclosure__content {
+.disclosure__content[data-disclosure-content] {
   background: #fafafa;
   border: 1px solid;
+  display: block;
+  height: auto;
+  overflow: hidden;
+  padding: .75em .5em;
+  visibility: visible;
+}
+
+.disclosure__content[data-disclosure-content="flyout"] {
   left: 0;
+  min-width: 14em;
   position: absolute;
   top: calc(100% + .25em);
   z-index: 2;
+}
+
+.disclosure__content > *:first-child {
+  margin-top: 0;
+}
+
+.disclosure__content > *:last-child {
+  margin-bottom: 0;
 }
