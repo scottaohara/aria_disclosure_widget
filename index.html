@@ -32,62 +32,110 @@
 
       <main aria-label="Demo Content">
 
-        <h2>
-          Demos:
-        </h2>
+        <article>
+          <h2>
+            Example patterns:
+          </h2>
 
+          <section>
+            <h3>
+              Block Disclosure
+            </h3>
+            <div id="ex" data-disclosure data-disclosure-block>
+              <button data-disclosure-btn="block" disabled hidden>
+                A full width button
+              </button>
+              <div data-disclosure-content>
+                <p>
+                  Allows for a large hit area for the disclosure widget's
+                  trigger.
+                </p>
+                <p>
+                  <a href="#!">
+                    This link is here just for focus testing.
+                  </a>
+                </p>
+              </div>
+            </div>
+          </section>
 
-        <div id="ex" data-disclosure>
-          <button data-disclosure-btn disabled hidden>
-            Show More
-          </button>
-          <div data-disclosure-content>
+          <section>
+            <h3>
+              Block Disclosure (heading)
+            </h3>
+            <div id="ex2" data-disclosure data-disclosure-open data-disclosure-class="test-class">
+              <h4>
+                <button data-disclosure-btn="block" disabled hidden>
+                  Disclosure button within a heading
+                </button>
+              </h4>
+              <div data-disclosure-content>
+                <p>
+                  This disclosure widget is opened by default. Because that's a thing that should be able to happen.
+                </p>
+
+                <p>
+                  Here's an example of a nested flyout disclosure widget:
+
+                  <span data-disclosure="I'm a flyout!" data-disclosure-flyout>
+                    <span data-disclosure-content>
+                      This example has a <a href="#">link within it</a>. Flyouts can
+                      be closed via the <kbd>ESC</kbd> key, as long as focus is on the <code>button</code> or within the revealed content.
+                      <br>
+                      Flyouts will auto-close if focus leaves the flyout.
+                    </span>
+                  </span>
+
+                  All of this is contained within a single paragraph.
+                </p>
+
+                <p>
+                  Here's an example of a nested <b>hover</b> flyout disclosure widget:
+
+                  <span data-disclosure="I'm a Hover flyout!" data-disclosure-hover data-disclosure-flyout>
+                    <span data-disclosure-content>
+                      This sort of disclosure widget will trigger on mouse hover. Why? Well because sometimes people hate to click things I guess.
+                      <br>
+                      Flyouts will auto-close if focus or mouse hover leaves the flyout.
+                    </span>
+                  </span>
+
+                  All of this is contained within a single paragraph.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3>
+              Disclosure Widgets can power navigations
+            </h3>
+
             <p>
-              oh hi how you doing?
+              This example showcases how a disclosure widget can be used to create
+              an off-site navigation. Using the <code>data-disclosure-manual-classes</code> to
+              not add any of the default classes to the widget, and to instead use totally custom
+              classes for the component.
             </p>
+
+            <nav aria-label="example" id="my_nav" data-disclosure-flyout data-disclosure data-disclosure-manual-classes>
+              <button data-disclosure-btn hidden>
+                Menu
+              </button>
+
+              <div data-disclosure-content>
+                <ul>
+                  <li><a href="#">Link 1</a></li>
+                  <li><a href="#">Link 2</a></li>
+                  <li><a href="#">Link 3</a></li>
+                </ul>
+              </div>
+            </nav>
             <p>
-              I got two paragraphs here
+              <a href="#">Focusable element after the navigation</a>.
             </p>
-            <a href="#!">
-              and a link
-            </a>
-          </div>
-        </div>
-
-        <hr>
-
-        <p data-disclosure data-disclosure-open>
-          Need an example of
-          <a href="#" data-disclosure-btn>
-            a widget in line with a paragraph?
-          </a>
-          <span data-disclosure-content>
-            oh hi how you doing?
-          </span>
-        </p>
-
-        <hr>
-
-        <p>
-          What could you possibly want
-          <span data-disclosure>
-            <span data-disclosure-content="flyout">
-              Sorry, nothing to see here after all
-            </span>
-          </span>
-
-        </p>
-
-        <hr>
-
-        <p>
-          <span data-disclosure="Open Content">
-            <span data-disclosure-content>
-              content goes inside of here. It can be a little or a lot.  This would be a little.
-            </span>
-          </span>
-        </p>
-
+          </section>
+        </article>
 
       </main>
 
@@ -102,6 +150,41 @@
       for ( var i = 0; i < els.length; i++ ) {
         var dis = new A11Ydisclosure( els[i] );
       }
+
+      // navigation example specific:
+      var body = document.getElementById('body');
+      var nav = document.getElementById('my_nav');
+      var navBtn = nav.querySelector('button');
+      var expandedClass = 'nav-expanded';
+
+      navBtn.addEventListener('click', function () {
+        if ( body.classList.contains(expandedClass) ) {
+          body.classList.remove(expandedClass);
+        }
+        else {
+          body.classList.add(expandedClass);
+        }
+      });
+
+      nav.addEventListener('keypress', function ( e ) {
+        var keyCode = e.keyCode || e.which;
+
+        switch ( keyCode ) {
+          case 27:
+            if ( body.classList.contains(expandedClass) ) {
+              body.classList.remove(expandedClass);
+            }
+            break;
+        }
+      });
+
+      nav.addEventListener('focusout', function ( e ) {
+        setTimeout( function () {
+          if ( !nav.contains(document.activeElement) ) {
+            body.classList.remove(expandedClass);
+          }
+        }, 200);
+      });
     </script>
   </body>
 </html>
