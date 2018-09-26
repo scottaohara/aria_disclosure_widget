@@ -186,6 +186,7 @@ var util = {
         content.hidden = false;
         expandedState = true;
         activeEl = el;
+        button.focus();
 
         if ( isFlyout ) {
           outsideClick();
