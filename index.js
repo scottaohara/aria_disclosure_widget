@@ -45,15 +45,15 @@ var util = {
     var _options = Object.assign(A11YdisclosureOptions, options);
     var el = inst;
     var button;
-    var content;
-    var elID;
-    var contentID;
     var buttonID;
+    var content;
+    var contentID;
     var elCustomClass;
+    var elID;
+    var activeEl = false;
+    var expandedState = false;
     var isFlyout = false;
     var isHoverActive = false;
-    var expandedState = false;
-    var activeEl = false;
 
 
     var init = function () {
@@ -75,7 +75,7 @@ var util = {
 
       var outsideClickListener = function ( e ) {
 
-        if ( !el.contains(e.target) ) { // or use: event.target.closest(selector) === null
+        if ( !el.contains(e.target) ) {
           if ( activeEl ) {
             content.hidden = true;
             button.setAttribute('aria-expanded', 'false');
@@ -84,10 +84,10 @@ var util = {
         }
       }
 
-      doc.addEventListener('click', outsideClickListener);
+      doc.addEventListener('click', outsideClickListener, false);
 
       var removeClickListener = function () {
-        doc.removeEventListener('click', outsideClickListener);
+        doc.removeEventListener('click', outsideClickListener, false);
       }
     } // outsideClick()
 
@@ -118,7 +118,7 @@ var util = {
               content.hidden = true;
             }
           }, 200);
-        });
+        }, false);
       }
 
       el.addEventListener('keypress', keyEvents, false);
@@ -243,7 +243,4 @@ var util = {
 
   w.A11Ydisclosure = A11Ydisclosure;
 
-  doc.addEventListener('click', function ( e ) {
-
-  });
 })( window, document );
