@@ -226,6 +226,8 @@ var util = {
           if ( expandedState && isFlyout ) {
             button.setAttribute('aria-expanded', 'false');
             content.hidden = true;
+            expandedState = false;
+            activeEl = false;
             button.focus();
           }
           break;
