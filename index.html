@@ -155,14 +155,15 @@
       var body = document.getElementById('body');
       var nav = document.getElementById('my_nav');
       var navBtn = nav.querySelector('button');
+      var navBar = nav.querySelector('[data-disclosure-content]');
       var expandedClass = 'nav-expanded';
 
       navBtn.addEventListener('click', function () {
         if ( body.classList.contains(expandedClass) ) {
-          body.classList.remove(expandedClass);
+          closeNav();
         }
         else {
-          body.classList.add(expandedClass);
+          openNav()
         }
       });
 
@@ -172,7 +173,7 @@
         switch ( keyCode ) {
           case 27:
             if ( body.classList.contains(expandedClass) ) {
-              body.classList.remove(expandedClass);
+              closeNav();
             }
             break;
         }
@@ -181,10 +182,26 @@
       nav.addEventListener('focusout', function ( e ) {
         setTimeout( function () {
           if ( !nav.contains(document.activeElement) ) {
-            body.classList.remove(expandedClass);
+            closeNav();
           }
         }, 200);
       });
+
+      var openNav = function () {
+        body.classList.add(expandedClass);
+        document.addEventListener('click', docClick, false);
+      }
+
+      var closeNav = function () {
+        body.classList.remove(expandedClass);
+      }
+
+      var docClick = function ( e ) {
+        if ( !nav.contains(e.target) ) {
+          closeNav();
+          document.removeEventListener('click', docClick);
+        }
+      }
     </script>
   </body>
 </html>
