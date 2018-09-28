@@ -119,7 +119,7 @@ var util = {
 
 
     /**
-     * Look for attributes and setup eventListeners
+     * Look for attributes and setup eventListener
      * on the wrapping widget element.
      */
     var setupWidget = function () {
@@ -133,7 +133,6 @@ var util = {
 
       if ( elType === 'flyout' ) {
         isFlyout = true;
-        el.addEventListener('focusout', outsideFocus, false);
       }
 
       el.addEventListener('keypress', keyEvents, false);
@@ -175,6 +174,10 @@ var util = {
 
       if ( !expandedState ) {
         content.hidden = true;
+      }
+
+      if ( isFlyout ) {
+        content.tabIndex = '-1';
       }
     }; // setupContent()
 
@@ -261,6 +264,7 @@ var util = {
         */
 
         if ( isFlyout ) {
+          el.addEventListener('focusout', outsideFocus, false);
           outsideClick();
         }
       }
@@ -331,7 +335,7 @@ var util = {
         if ( !el.contains(doc.activeElement) ) {
           closeContent();
         }
-      }, 200);
+      }, 1);
     }; // outsideFocus()
 
     /**

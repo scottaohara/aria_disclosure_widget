@@ -123,6 +123,10 @@
   z-index: 3;
 }
 
+[data-disclosure-type="flyout"] .disclosure__content:focus {
+  outline: none
+}
+
 .disclosure__content > *:first-child {
   margin-top: 0;
 }
