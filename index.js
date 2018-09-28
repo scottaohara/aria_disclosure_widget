@@ -133,14 +133,9 @@ var util = {
 
       if ( elType === 'flyout' ) {
         isFlyout = true;
-
-        // el.addEventListener('focusout', function ( e ) {
-
-        // }, false);
-      }
-      if ( isFlyout ) {
         el.addEventListener('focusout', outsideFocus, false);
       }
+
       el.addEventListener('keypress', keyEvents, false);
     }; // instSetup()
 
@@ -332,7 +327,6 @@ var util = {
      * the widget should collapse.
      */
     var outsideFocus = function () {
-      isFlyout = true;
       setTimeout( function () {
         if ( !el.contains(doc.activeElement) ) {
           closeContent();
