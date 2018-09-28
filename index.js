@@ -18,27 +18,31 @@ var util = {
 (function ( w, doc, undefined ) {
   /**
    * A11Y Disclosure Widget
-   * ...
+   * Disclosure widgets are incredibly versatile in that they
+   * can be the basis for various different types of UI
+   * components, from drop menus, hamburger navigation,
+   * or standard show/hide content components.
    *
    * Author: Scott O'Hara
    * Version: 1.0.0
-   * License: MIT
+   * License: https://github.com/scottaohara/aria_disclosure_widget/blob/master/LICENSE
    */
   var A11YdisclosureOptions = {
     baseID: 'aDW_',
     elClass: 'disclosure',
-    buttonClass: 'disclosure__trigger',
     blockButtonClass: 'disclosure__trigger--block',
+    buttonClass: 'disclosure__trigger',
     elContentClass: 'disclosure__content',
-    customClassAttribute: 'data-disclosure-class',
+    toggleTipClass: 'disclosure__trigger--tip',
+
     buttonLabelAttribute: 'data-disclosure',
-    flyoutAttribute: 'data-disclosure-flyout',
     buttonSelector: '[data-disclosure-btn]',
-    generateBtnBlockAttribute: 'data-disclosure-btn-block',
     contentSelector: '[data-disclosure-content]',
-    elStateAttribute: 'data-disclosure-open',
+    customClassAttribute: 'data-disclosure-class',
+    generateBtnBlockAttribute: 'data-disclosure-btn-block',
+    initialStateAttribute: 'data-disclosure-open',
     manualClassesAttribute: 'data-disclosure-manual-classes',
-    hoverActiveAttribute: 'data-disclosure-hover'
+    typeAttribute: 'data-disclosure-type'
   };
 
   var A11Ydisclosure = function ( inst, options ) {
@@ -50,50 +54,42 @@ var util = {
     var contentID;
     var elCustomClass;
     var elID;
-    var activeEl = false;
     var expandedState = false;
     var isFlyout = false;
-    var isHoverActive = false;
+    var manualClasses = false;
+    var elType;
 
 
+    /**
+     * Initialize the disclosure widget instance.
+     * Create the unique IDs per instance, find the
+     * necessary children of the widget and run other
+     * setup functions.
+     */
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
       el.classList.add(_options.elClass);
+
       contentID = elID + '_content';
       buttonID = elID + '_btn';
+      manualClasses = el.hasAttribute(_options.manualClassesAttribute);
+      elType = el.getAttribute(_options.typeAttribute);
 
       button = el.querySelector(_options.buttonSelector) || generateButton();
       content = el.querySelector(_options.contentSelector);
 
-      setupInstance();
+      setupWidget();
       setupButton();
       setupContent();
     }; // init()
 
 
-    var outsideClick = function () {
-
-      var outsideClickListener = function ( e ) {
-
-        if ( !el.contains(e.target) ) {
-          if ( activeEl ) {
-            content.hidden = true;
-            button.setAttribute('aria-expanded', 'false');
-            removeClickListener();
-          }
-        }
-      }
-
-      doc.addEventListener('click', outsideClickListener, false);
-
-      var removeClickListener = function () {
-        doc.removeEventListener('click', outsideClickListener, false);
-      }
-    } // outsideClick()
-
-
-    var setupInstance = function () {
-      if ( el.hasAttribute(_options.elStateAttribute) ) {
+    /**
+     * Look for attributes and setup eventListeners
+     * on the wrapping widget element.
+     */
+    var setupWidget = function () {
+      if ( el.hasAttribute(_options.initialStateAttribute) ) {
         expandedState = true;
       }
 
@@ -101,30 +97,23 @@ var util = {
         el.classList.add(el.getAttribute(_options.customClassAttribute));
       }
 
-      if ( el.hasAttribute(_options.hoverActiveAttribute) ) {
-        isHoverActive = true;
-
-        el.addEventListener('mouseout', activateWidget, false);
-        el.addEventListener('mouseover', mouseOverEvent, false);
-      }
-
-      if ( el.hasAttribute(_options.flyoutAttribute) ) {
+      if ( elType === 'flyout' ) {
         isFlyout = true;
 
-        el.addEventListener('focusout', function ( e ) {
-          setTimeout( function () {
-            if ( !el.contains(doc.activeElement) ) {
-              button.setAttribute('aria-expanded', 'false')
-              content.hidden = true;
-            }
-          }, 200);
-        }, false);
-      }
+        // el.addEventListener('focusout', function ( e ) {
 
+        // }, false);
+      }
+      if ( isFlyout ) {
+        el.addEventListener('focusout', outsideFocus, false);
+      }
       el.addEventListener('keypress', keyEvents, false);
     }; // instSetup()
 
 
+    /**
+     * In the event that no button exists, generate one.
+     */
     var generateButton = function () {
       var newBtn = doc.createElement('button');
       newBtn.type = 'button';
@@ -136,10 +125,15 @@ var util = {
     }; // generateButton()
 
 
+    /**
+     * Give the content a unique ID,
+     * provide it with default classes (if not overridden)
+     * set appropriate state
+     */
     var setupContent = function () {
       content.id = contentID;
 
-      if ( !el.hasAttribute(_options.manualClassesAttribute) ) {
+      if ( !manualClasses ) {
         content.classList.add(_options.elContentClass);
       }
 
@@ -149,17 +143,41 @@ var util = {
     }; // setupContent()
 
 
+    /**
+     * Setup the button / trigger as needed
+     * 1. if not a button, supply the appropriate attrs
+     * 2. provide default classes (if not overridden)
+     * 3. provide appropriate attrs for default state
+     * 4. add eventListener
+     */
     var setupButton = function () {
+      /**
+       * If not a <button> then turn it into one.
+       * Add a tabindex to accommodate for typically
+       * non-focusable elements. And remove a link's
+       * href attribute, because a button shouldn't
+       * get a right-click context menu with menu items
+       * for links :)
+       */
       if ( button.tagName !== 'BUTTON' ) {
         button.setAttribute('role', 'button');
         button.tabIndex = 0;
         button.removeAttribute('href');
       }
 
-      if ( !el.hasAttribute(_options.manualClassesAttribute) ) {
-        if ( button.getAttribute('data-disclosure-btn') === 'block' ) {
+      /**
+       * As long as someone hasn't decided to setup their
+       * classes manually, then
+       */
+      if ( !manualClasses ) {
+        if ( elType === 'block' ) {
           button.classList.add(_options.blockButtonClass);
         }
+
+        if ( elType === 'tip' ) {
+          button.classList.add(_options.toggleTipClass);
+        }
+
         button.classList.add(_options.buttonClass);
       }
 
@@ -169,67 +187,137 @@ var util = {
       button.disabled = false;
       button.hidden = false;
 
-      button.addEventListener('click', activateWidget, false);
-      button.addEventListener('mousedown', removeMouseOut, false);
+      button.addEventListener('click', toggleContent, false);
     }; // setupButton()
 
 
-    var activateWidget = function ( e ) {
+    /**
+     * Toggle between the open and close functions
+     * based on the current state of the disclosure widget's
+     * button expanded state.
+     */
+    var toggleContent = function ( e ) {
       if ( button.getAttribute('aria-expanded') === 'true' ) {
-        button.setAttribute('aria-expanded', 'false')
-        content.hidden = true;
-        expandedState = false;
-        activeEl = false;
+        closeContent();
       }
       else {
-        button.setAttribute('aria-expanded', 'true');
-        content.hidden = false;
-        expandedState = true;
-        activeEl = el;
+        openContent();
         button.focus();
+        /*
+          Firefox/Safari don't focus buttons on mouse click,
+          which can result in a bug with how focusOut
+          works with flyouts.
+          But, setting focus to a button on activation
+          will fix this issue for these browsers
+        */
 
         if ( isFlyout ) {
           outsideClick();
-          // outsideBlur(button);
         }
       }
-    }; // activateWidget()
+    }; // toggleContent()
 
 
-    var mouseOverEvent = function () {
-      activateWidget();
-      el.addEventListener('mouseout', activateWidget, false);
-    }
+    /**
+     * Collapse the disclosure widget
+     * and update the necessary elements/var.
+     */
+    var closeContent = function () {
+      button.setAttribute('aria-expanded', 'false')
+      content.hidden = true;
+      expandedState = false;
+    }; // closeContent()
 
 
-    var removeMouseOut = function () {
-      if ( isHoverActive ) {
-        el.removeEventListener('mouseout', activateWidget);
-      }
-    }; // removeMouseOut()
+    /**
+     * Expand the disclosure widget
+     * and update the necessary elements/var.
+     */
+    var openContent = function () {
+      button.setAttribute('aria-expanded', 'true');
+      content.hidden = false;
+      expandedState = true;
+    }; // openContent()
 
 
+    /**
+     * If a user clicks outside of a flyout disclosure widget
+     * (non-modal dialog) then often an expectation
+     * is that the outside click will close the widget.
+     */
+    var outsideClick = function () {
+      var outsideListener = function ( e ) {
+        if ( !el.contains(e.target) ) {
+          closeContent();
+          removeOutsideListener();
+        }
+      }; // outsideListener()
+
+      var removeOutsideListener = function () {
+        doc.removeEventListener('click', outsideListener);
+        // doc.removeEventListener('touchstart', outsideListener);
+      }; // removeOutsideListener()
+
+      /**
+       * Note:
+       * adding touchstart/end here allows for touch outside of a
+       * flyout disclosure to close it on iOS.  However, adding
+       * this eventListener also breaks the announcement of
+       * the disclosure widget's current state after initial toggle.
+       *
+       * Need to look into this more...
+       */
+      doc.addEventListener('click', outsideListener, false);
+      // doc.addEventListener('touchstart', outsideListener, false);
+    }; // outsideClick()
+
+
+    /**
+     * If a user focuses outside of a flyout disclosure widget
+     * (non-modal dialog) then to match "clicking" outside
+     * the widget should collapse.
+     */
+    var outsideFocus = function () {
+      isFlyout = true;
+      setTimeout( function () {
+        if ( !el.contains(doc.activeElement) ) {
+          closeContent();
+        }
+      }, 200);
+    }; // outsideFocus()
+
+    /**
+     * Handle keyboard events for disclosure widgets:
+     * - Space/Enter for non-native button elements.
+     * - ESC key for expanded flyout disclosure widgets.
+     */
     var keyEvents = function ( e ) {
       var keyCode = e.keyCode || e.which;
 
       switch ( keyCode ) {
         case util.keyCodes.SPACE:
         case util.keyCodes.ENTER:
-          // prevents bug w/Firefox where true <button>s
-          // well double fire the keyEvent
+          /**
+           * This if is necessary to prevent a "bug" in Firefox
+           * where native <button>s well double fire the keyEvent,
+           * because Firefox also registers this as a click.
+           */
           if ( button.tagName !== 'BUTTON' ) {
             e.preventDefault();
-            activateWidget();
+            toggleContent();
           }
           break;
 
         case util.keyCodes.ESC:
+          /**
+           * Escape key should only work if the
+           * content is expanded, and if the disclosure
+           * widget is a flyout. Otherwise ESC to close
+           * would be unexpected.
+           */
           if ( expandedState && isFlyout ) {
-            button.setAttribute('aria-expanded', 'false');
-            content.hidden = true;
-            expandedState = false;
-            activeEl = false;
-            button.focus();
+            toggleContent()
+            button.focus(); // return focus to button so it doesn't get lost
           }
           break;
 

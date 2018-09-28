@@ -41,8 +41,8 @@
             <h3>
               Block Disclosure
             </h3>
-            <div id="ex" data-disclosure data-disclosure-block>
-              <button data-disclosure-btn="block" disabled hidden>
+            <div id="ex" data-disclosure data-disclosure-type="block">
+              <button data-disclosure-btn disabled hidden>
                 A full width button
               </button>
               <div data-disclosure-content>
@@ -65,7 +65,7 @@
             </h3>
             <div id="ex2" data-disclosure data-disclosure-open data-disclosure-class="test-class">
               <h4>
-                <button data-disclosure-btn="block" disabled hidden>
+                <button data-disclosure-btn disabled hidden>
                   Disclosure button within a heading
                 </button>
               </h4>
@@ -77,7 +77,7 @@
                 <p>
                   Here's an example of a nested flyout disclosure widget:
 
-                  <span data-disclosure="I'm a flyout!" data-disclosure-flyout>
+                  <span data-disclosure="I'm a flyout!" data-disclosure-type="flyout">
                     <span data-disclosure-content>
                       This example has a <a href="#">link within it</a>. Flyouts can
                       be closed via the <kbd>ESC</kbd> key, as long as focus is on the <code>button</code> or within the revealed content.
@@ -90,13 +90,11 @@
                 </p>
 
                 <p>
-                  Here's an example of a nested <b>hover</b> flyout disclosure widget:
+                  Here's an example of another flyout disclosure widget:
 
-                  <span data-disclosure="I'm a Hover flyout!" data-disclosure-hover data-disclosure-flyout>
+                  <span data-disclosure="I'm another flyout!" data-disclosure-hover data-disclosure-type="flyout">
                     <span data-disclosure-content>
-                      This sort of disclosure widget will trigger on mouse hover. Why? Well because sometimes people hate to click things I guess.
-                      <br>
-                      Flyouts will auto-close if focus or mouse hover leaves the flyout.
+                      This one doesn't have a link in it.
                     </span>
                   </span>
 
@@ -118,7 +116,7 @@
               classes for the component.
             </p>
 
-            <nav aria-label="example" id="my_nav" data-disclosure-flyout data-disclosure data-disclosure-manual-classes>
+            <nav aria-label="example" id="my_nav" data-disclosure-type="flyout" data-disclosure data-disclosure-manual-classes>
               <button data-disclosure-btn hidden>
                 Menu
               </button>

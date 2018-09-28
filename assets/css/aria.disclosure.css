@@ -91,6 +91,7 @@
   width: 0%;
 }
 
+/*[data-disclosure-hover]:hover .disclosure__content,*/
 .disclosure__content {
   background: #fafafa;
   border: 1px solid;
@@ -100,7 +101,7 @@
   visibility: visible;
 }
 
-[data-disclosure-flyout] .disclosure__content:before {
+[data-disclosure-type="flyout"] .disclosure__content:before {
   bottom: -.75em;
   content: "";
   left: -.75em;
@@ -110,7 +111,7 @@
   z-index: -1;
 }
 
-[data-disclosure-flyout] .disclosure__content {
+[data-disclosure-type="flyout"] .disclosure__content {
   left: 0;
   min-width: 14em;
   position: absolute;
