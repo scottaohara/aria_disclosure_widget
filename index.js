@@ -127,10 +127,9 @@ var util = {
         expandedState = true;
       }
 
-      if ( !elCustomClass ) {
+      if ( elCustomClass ) {
         el.classList.add(elCustomClass);
       }
-
 
       if ( elType === 'flyout' ) {
         isFlyout = true;
