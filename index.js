@@ -35,14 +35,15 @@ var util = {
     elContentClass: 'disclosure__content',
     toggleTipClass: 'disclosure__trigger--tip',
 
-    buttonLabelAttribute: 'data-disclosure',
     buttonSelector: '[data-disclosure-btn]',
     contentSelector: '[data-disclosure-content]',
-    customClassAttribute: 'data-disclosure-class',
-    generateBtnBlockAttribute: 'data-disclosure-btn-block',
-    initialStateAttribute: 'data-disclosure-open',
-    manualClassesAttribute: 'data-disclosure-manual-classes',
-    typeAttribute: 'data-disclosure-type'
+
+    keepNoJsStateAttr: 'data-disclosure-no-js',
+    buttonLabelAttr: 'data-disclosure',
+    customClassAttr: 'data-disclosure-class',
+    initialStateAttr: 'data-disclosure-open',
+    manualClassesAttr: 'data-disclosure-manual-classes',
+    typeAttr: 'data-disclosure-type'
   };
 
   var A11Ydisclosure = function ( inst, options ) {
@@ -54,6 +55,7 @@ var util = {
     var contentID;
     var elCustomClass;
     var elID;
+    var keepNoJsState;
     var expandedState = false;
     var isFlyout = false;
     var manualClasses = false;
@@ -72,8 +74,10 @@ var util = {
 
       contentID = elID + '_content';
       buttonID = elID + '_btn';
-      manualClasses = el.hasAttribute(_options.manualClassesAttribute);
-      elType = el.getAttribute(_options.typeAttribute);
+      manualClasses = el.hasAttribute(_options.manualClassesAttr);
+      elType = el.getAttribute(_options.typeAttr);
+      keepNoJsState = el.getAttribute(_options.keepNoJsStateAttr);
+      elCustomClass = el.getAttribute(_options.customClassAttr) || false;
 
       button = el.querySelector(_options.buttonSelector) || generateButton();
       content = el.querySelector(_options.contentSelector);
@@ -89,13 +93,14 @@ var util = {
      * on the wrapping widget element.
      */
     var setupWidget = function () {
-      if ( el.hasAttribute(_options.initialStateAttribute) ) {
+      if ( el.hasAttribute(_options.initialStateAttr) ) {
         expandedState = true;
       }
 
-      if ( el.hasAttribute(_options.customClassAttribute) ) {
-        el.classList.add(el.getAttribute(_options.customClassAttribute));
+      if ( !elCustomClass ) {
+        el.classList.add(elCustomClass);
       }
+
 
       if ( elType === 'flyout' ) {
         isFlyout = true;
@@ -117,8 +122,15 @@ var util = {
     var generateButton = function () {
       var newBtn = doc.createElement('button');
       newBtn.type = 'button';
-      newBtn.textContent = el.getAttribute(_options.buttonLabelAttribute) || 'More info ';
+      newBtn.textContent = el.getAttribute(_options.buttonLabelAttr) || 'More info ';
       el.insertBefore(newBtn, el.firstChild);
+
+      if ( keepNoJsState === 'hidden' ) {
+        button.hidden = true;
+      }
+      if ( keepNoJsState === 'disabled' ) {
+        button.disabled = true;
+      }
 
       button = newBtn;
       return button;
@@ -184,8 +196,21 @@ var util = {
       button.id = buttonID;
       button.setAttribute('aria-expanded', expandedState);
       button.setAttribute('aria-controls', contentID);
-      button.disabled = false;
-      button.hidden = false;
+      /**
+       * for no-js, a button should be disabled or hidden
+       * by default. Typically these attributes would then
+       * be removed when the script runs cause JS is
+       * available for the buttons to function.
+       *
+       * But in the event these attributes need to be
+       * maintained for some reason...
+       */
+      if ( keepNoJsState !== 'hidden' ) {
+        button.hidden = false;
+      }
+      if ( keepNoJsState !== 'disabled' ) {
+        button.disabled = false;
+      }
 
       button.addEventListener('click', toggleContent, false);
     }; // setupButton()
