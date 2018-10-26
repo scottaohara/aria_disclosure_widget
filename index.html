@@ -90,7 +90,7 @@
                 </p>
 
                 <p>
-                  Here's an example of another flyout disclosure widget:
+                  Here's an example of yet another flyout disclosure widget because testing:
 
                   <span data-disclosure="I'm another flyout!" data-disclosure-hover data-disclosure-type="flyout">
                     <span data-disclosure-content>
@@ -169,6 +169,15 @@
         var keyCode = e.keyCode || e.which;
 
         switch ( keyCode ) {
+          case 13:
+            if ( body.classList.contains(expandedClass) ) {
+              closeNav();
+            }
+            else {
+              openNav()
+            }
+            break;
+
           case 27:
             if ( body.classList.contains(expandedClass) ) {
               closeNav();

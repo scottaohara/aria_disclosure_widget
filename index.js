@@ -1,4 +1,3 @@
-'use strict';
 // for ie nonsense
 if (typeof Object.assign != 'function') {
   // Must be writable: true, enumerable: false, configurable: true
@@ -76,6 +75,8 @@ var util = {
     typeAttr: 'data-disclosure-type'
   };
 
+  var prevFlyoutBtn = false;
+
   var A11Ydisclosure = function ( inst, options ) {
     var _options = Object.assign(A11YdisclosureOptions, options);
     var el = inst;
@@ -133,9 +134,8 @@ var util = {
 
       if ( elType === 'flyout' ) {
         isFlyout = true;
+        el.addEventListener('keypress', keyEsc, false);
       }
-
-      el.addEventListener('keypress', keyEvents, false);
     }; // instSetup()
 
 
@@ -173,11 +173,12 @@ var util = {
       }
 
       if ( !expandedState ) {
-        content.hidden = true;
+        content.classList.add('is-hidden');
       }
 
       if ( isFlyout ) {
         content.tabIndex = '-1';
+        el.addEventListener('focusout', outsideFocus, false);
       }
     }; // setupContent()
 
@@ -239,7 +240,8 @@ var util = {
         button.disabled = false;
       }
 
-      button.addEventListener('click', toggleContent, false);
+      button.addEventListener('mousedown', toggleContent, false);
+      button.addEventListener('keypress', keyToggle, false);
     }; // setupButton()
 
 
@@ -251,22 +253,30 @@ var util = {
     var toggleContent = function ( e ) {
       if ( button.getAttribute('aria-expanded') === 'true' ) {
         closeContent();
+
+        if ( isFlyout ) {
+          prevFlyoutBtn = false;
+          return prevFlyoutBtn;
+        }
       }
       else {
         openContent();
-        button.focus();
-        /*
-          Firefox/Safari don't focus buttons on mouse click,
-          which can result in a bug with how focusOut
-          works with flyouts.
-          But, setting focus to a button on activation
-          will fix this issue for these browsers
-        */
 
         if ( isFlyout ) {
-          el.addEventListener('focusout', outsideFocus, false);
-          outsideClick();
+          var thisBtnID = e.target.id;
+          var thisBtn = doc.getElementById(thisBtnID);
         }
+
+        if ( prevFlyoutBtn ) {
+          var prevBtn = doc.getElementById(prevFlyoutBtn);
+          var prevContent = doc.getElementById(prevBtn.getAttribute('aria-controls'));
+
+          prevBtn.setAttribute('aria-expanded', 'false');
+          prevContent.classList.add('is-hidden');
+        }
+
+        prevFlyoutBtn = thisBtnID || false;
+        return prevFlyoutBtn;
       }
     }; // toggleContent()
 
@@ -277,7 +287,7 @@ var util = {
      */
     var closeContent = function () {
       button.setAttribute('aria-expanded', 'false')
-      content.hidden = true;
+      content.classList.add('is-hidden');
       expandedState = false;
     }; // closeContent()
 
@@ -288,41 +298,9 @@ var util = {
      */
     var openContent = function () {
       button.setAttribute('aria-expanded', 'true');
-      content.hidden = false;
+      content.classList.remove('is-hidden');
       expandedState = true;
     }; // openContent()
-
-
-    /**
-     * If a user clicks outside of a flyout disclosure widget
-     * (non-modal dialog) then often an expectation
-     * is that the outside click will close the widget.
-     */
-    var outsideClick = function () {
-      var outsideListener = function ( e ) {
-        if ( !el.contains(e.target) ) {
-          closeContent();
-          removeOutsideListener();
-        }
-      }; // outsideListener()
-
-      var removeOutsideListener = function () {
-        doc.removeEventListener('click', outsideListener);
-        // doc.removeEventListener('touchstart', outsideListener);
-      }; // removeOutsideListener()
-
-      /**
-       * Note:
-       * adding touchstart/end here allows for touch outside of a
-       * flyout disclosure to close it on iOS.  However, adding
-       * this eventListener also breaks the announcement of
-       * the disclosure widget's current state after initial toggle.
-       *
-       * Need to look into this more...
-       */
-      doc.addEventListener('click', outsideListener, false);
-      // doc.addEventListener('touchstart', outsideListener, false);
-    }; // outsideClick()
 
 
     /**
@@ -334,16 +312,20 @@ var util = {
       setTimeout( function () {
         if ( !el.contains(doc.activeElement) ) {
           closeContent();
+
+          prevFlyoutBtn = false;
+          return prevFlyoutBtn;
         }
       }, 1);
     }; // outsideFocus()
+
 
     /**
      * Handle keyboard events for disclosure widgets:
      * - Space/Enter for non-native button elements.
      * - ESC key for expanded flyout disclosure widgets.
      */
-    var keyEvents = function ( e ) {
+    var keyToggle = function ( e ) {
       var keyCode = e.keyCode || e.which;
 
       switch ( keyCode ) {
@@ -354,18 +336,25 @@ var util = {
            * where native <button>s well double fire the keyEvent,
            * because Firefox also registers this as a click.
            */
-          if ( button.tagName !== 'BUTTON' ) {
-            e.preventDefault();
-            toggleContent();
-          }
+          e.preventDefault();
+          toggleContent(e);
+          button.focus();
           break;
 
+        default:
+          break;
+      }
+    } // keyToggle()
+
+    var keyEsc = function ( e ) {
+      var keyCode = e.keyCode || e.which;
+
+      switch ( keyCode ) {
         case util.keyCodes.ESC:
           /**
-           * Escape key should only work if the
-           * content is expanded, and if the disclosure
-           * widget is a flyout. Otherwise ESC to close
-           * would be unexpected.
+           * Escape key should only work if the content is expanded,
+           * focus is currently within the widget, and if the widget
+           * is a flyout. Otherwise ESC to close would be unexpected.
            */
           if ( expandedState && isFlyout ) {
             toggleContent()
@@ -376,7 +365,7 @@ var util = {
         default:
           break;
       }
-    } // keyEvents()
+    } // keyClose();
 
 
     init.call( this );
