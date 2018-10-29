@@ -37,14 +37,25 @@
             Example patterns:
           </h2>
 
+          <h3>
+            The most minimal
+          </h3>
+          <div data-disclosure="A generated button">
+            <p data-disclosure-content>
+              This content will turn into a disclosure
+              once the script runs.
+            </p>
+          </div>
+
+
           <section>
             <h3>
               Block Disclosure
             </h3>
             <div id="ex" data-disclosure data-disclosure-type="block">
-              <button data-disclosure-btn disabled hidden>
-                A full width button
-              </button>
+              <span data-disclosure-btn>
+                A full width "button"
+              </span>
               <div data-disclosure-content>
                 <p>
                   Allows for a large hit area for the disclosure widget's
@@ -63,9 +74,9 @@
             <h3>
               Block Disclosure (heading)
             </h3>
-            <div id="ex2" data-disclosure data-disclosure-open data-disclosure-class="test-class">
+            <div id="ex2" data-disclosure data-disclosure-type="block" data-disclosure-open data-disclosure-class="test-class">
               <h4>
-                <button data-disclosure-btn disabled hidden>
+                <button data-disclosure-btn>
                   Disclosure button within a heading
                 </button>
               </h4>
