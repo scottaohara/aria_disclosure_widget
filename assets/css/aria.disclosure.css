@@ -1,0 +1,114 @@
+/** --------------------------------------------------------------------
+
+  ARIA Disclosure Widget
+
+--------------------------------------------------------------------- */
+
+.disclosure {
+  position: relative;
+}
+
+/**
+ * Trigger (button) Styles
+ */
+.disclosure__trigger {
+  background: none;
+  border: 1px solid rgba(0,0,0,.325);
+  cursor: default;
+  display: inline-block;
+  font-size: inherit;
+  line-height: normal;
+  margin: 0;
+  padding: .25em 1.75em .25em .5em;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  z-index: 1;
+}
+
+.disclosure__trigger[hidden] {
+  display: none;
+}
+
+.disclosure__trigger:after {
+  border-left: .35em solid transparent;
+  border-right: .35em solid transparent;
+  border-top: .35em solid #111;
+  bottom: 0;
+  content: "";
+  height: 0;
+  margin: auto;
+  position: absolute;
+  right: .5em;
+  top: 0;
+  transform: rotate(0deg);
+  transform-origin: center center;
+  transition: transform .2s ease-in-out;
+  width: 0;
+}
+
+.disclosure__trigger:not([disabled]):hover,
+.disclosure__trigger:focus {
+  background: #c12f48;
+  color: #fff;
+}
+
+.disclosure__trigger:not([disabled]):hover:before,
+.disclosure__trigger:focus:before,
+.disclosure__trigger[aria-expanded="true"]:before {
+  height: 0;
+}
+
+.disclosure__trigger:not([disabled]):hover:after,
+.disclosure__trigger:focus:after {
+  border-top-color: #fff;
+}
+
+.disclosure__trigger[aria-expanded="true"]:after {
+  transform: rotate(180deg);
+}
+
+.disclosure__trigger--block {
+  padding: .625em 1.5em .625em .5em;
+  width: 100%;
+}
+
+/**
+ * Content Styles
+ */
+.disclosure__content.is-hidden {
+  display: block;
+  height: 0px;
+  padding: 0em;
+  visibility: hidden;
+  width: 0%;
+}
+
+.disclosure__content {
+  background: #fafafa;
+  border: 1px solid;
+  display: block;
+  height: auto;
+  padding: .75em .5em;
+  visibility: visible;
+}
+
+[data-disclosure-type="flyout"] .disclosure__content {
+  left: 0;
+  min-width: 14em;
+  position: absolute;
+  top: calc(100% + .25em);
+  z-index: 3;
+}
+
+[data-disclosure-type="flyout"] .disclosure__content:focus {
+  outline: none
+}
+
+.disclosure__content > *:first-child {
+  margin-top: 0;
+}
+
+.disclosure__content > *:last-child {
+  margin-bottom: 0;
+}
