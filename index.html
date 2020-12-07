@@ -2,12 +2,10 @@
 <html lang="en-us" class="no-js">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>
       ARIA Disclosure Widget
     </title>
-    <meta name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
       // remove no-js and add 'js' to the HTML
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
@@ -177,35 +175,6 @@
         }
       });
 
-      nav.addEventListener('keypress', function ( e ) {
-        var keyCode = e.keyCode || e.which;
-
-        switch ( keyCode ) {
-          case 13:
-            if ( body.classList.contains(expandedClass) ) {
-              closeNav();
-            }
-            else {
-              openNav()
-            }
-            break;
-
-          case 27:
-            if ( body.classList.contains(expandedClass) ) {
-              closeNav();
-            }
-            break;
-        }
-      });
-
-      nav.addEventListener('focusout', function ( e ) {
-        setTimeout( function () {
-          if ( !nav.contains(document.activeElement) ) {
-            closeNav();
-          }
-        }, 1);
-      });
-
       var openNav = function () {
         body.classList.add(expandedClass);
         document.addEventListener('click', docClick, false);
@@ -213,13 +182,6 @@
 
       var closeNav = function () {
         body.classList.remove(expandedClass);
-      }
-
-      var docClick = function ( e ) {
-        if ( !nav.contains(e.target) ) {
-          closeNav();
-          document.removeEventListener('click', docClick);
-        }
       }
     </script>
   </body>

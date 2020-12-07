@@ -33,9 +33,7 @@ if (typeof Object.assign != 'function') {
 var util = {
   keyCodes: {
     ENTER: 13,
-    SPACE: 32,
-    TAB: 9,
-    ESC: 27
+    SPACE: 32
   },
 
   generateID: function ( base ) {
@@ -47,10 +45,7 @@ var util = {
 (function ( w, doc, undefined ) {
   /**
    * A11Y Disclosure Widget
-   * Disclosure widgets are incredibly versatile in that they
-   * can be the basis for various different types of UI
-   * components, from drop menus, hamburger navigation,
-   * or standard show/hide content components.
+   * A component that shows/hides content.
    *
    * Author: Scott O'Hara
    * Version: 1.0.0
@@ -75,7 +70,7 @@ var util = {
     typeAttr: 'data-disclosure-type'
   };
 
-  var prevFlyoutBtn = false;
+  var currentFlyout;
 
   var A11Ydisclosure = function ( inst, options ) {
     var _options = Object.assign(A11YdisclosureOptions, options);
@@ -88,9 +83,10 @@ var util = {
     var elID;
     var keepNoJsState;
     var expandedState = false;
-    var isFlyout = false;
+    var isFlyout;
     var manualClasses = false;
     var elType;
+    var currentToggle;
 
 
     /**
@@ -110,10 +106,11 @@ var util = {
       keepNoJsState = el.getAttribute(_options.keepNoJsStateAttr);
       elCustomClass = el.getAttribute(_options.customClassAttr) || false;
 
+      setupWidget();
+
       button = el.querySelector(_options.buttonSelector) || generateButton();
       content = el.querySelector(_options.contentSelector);
 
-      setupWidget();
       setupButton();
       setupContent();
     }; // init()
@@ -134,7 +131,6 @@ var util = {
 
       if ( elType === 'flyout' ) {
         isFlyout = true;
-        el.addEventListener('keypress', keyEsc, false);
       }
     }; // instSetup()
 
@@ -151,6 +147,7 @@ var util = {
       if ( keepNoJsState === 'hidden' ) {
         button.hidden = true;
       }
+
       if ( keepNoJsState === 'disabled' ) {
         button.disabled = true;
       }
@@ -174,11 +171,6 @@ var util = {
 
       if ( !expandedState ) {
         content.classList.add('is-hidden');
-      }
-
-      if ( isFlyout ) {
-        content.tabIndex = '-1';
-        el.addEventListener('focusout', outsideFocus, false);
       }
     }; // setupContent()
 
@@ -236,11 +228,12 @@ var util = {
       if ( keepNoJsState !== 'hidden' ) {
         button.hidden = false;
       }
+
       if ( keepNoJsState !== 'disabled' ) {
         button.disabled = false;
       }
 
-      button.addEventListener('mousedown', toggleContent, false);
+      button.addEventListener('click', toggleContent, false);
       button.addEventListener('keypress', keyToggle, false);
     }; // setupButton()
 
@@ -253,30 +246,9 @@ var util = {
     var toggleContent = function ( e ) {
       if ( button.getAttribute('aria-expanded') === 'true' ) {
         closeContent();
-
-        if ( isFlyout ) {
-          prevFlyoutBtn = false;
-          return prevFlyoutBtn;
-        }
       }
       else {
         openContent();
-
-        if ( isFlyout ) {
-          var thisBtnID = e.target.id;
-          var thisBtn = doc.getElementById(thisBtnID);
-        }
-
-        if ( prevFlyoutBtn ) {
-          var prevBtn = doc.getElementById(prevFlyoutBtn);
-          var prevContent = doc.getElementById(prevBtn.getAttribute('aria-controls'));
-
-          prevBtn.setAttribute('aria-expanded', 'false');
-          prevContent.classList.add('is-hidden');
-        }
-
-        prevFlyoutBtn = thisBtnID || false;
-        return prevFlyoutBtn;
       }
     }; // toggleContent()
 
@@ -304,23 +276,6 @@ var util = {
 
 
     /**
-     * If a user focuses outside of a flyout disclosure widget
-     * (non-modal dialog) then to match "clicking" outside
-     * the widget should collapse.
-     */
-    var outsideFocus = function () {
-      setTimeout( function () {
-        if ( !el.contains(doc.activeElement) ) {
-          closeContent();
-
-          prevFlyoutBtn = false;
-          return prevFlyoutBtn;
-        }
-      }, 1);
-    }; // outsideFocus()
-
-
-    /**
      * Handle keyboard events for disclosure widgets:
      * - Space/Enter for non-native button elements.
      * - ESC key for expanded flyout disclosure widgets.
@@ -336,37 +291,17 @@ var util = {
            * where native <button>s well double fire the keyEvent,
            * because Firefox also registers this as a click.
            */
-          e.preventDefault();
-          toggleContent(e);
-          button.focus();
-          break;
-
-        default:
-          break;
-      }
-    } // keyToggle()
-
-    var keyEsc = function ( e ) {
-      var keyCode = e.keyCode || e.which;
-
-      switch ( keyCode ) {
-        case util.keyCodes.ESC:
-          /**
-           * Escape key should only work if the content is expanded,
-           * focus is currently within the widget, and if the widget
-           * is a flyout. Otherwise ESC to close would be unexpected.
-           */
-          if ( expandedState && isFlyout ) {
-            toggleContent()
-            button.focus(); // return focus to button so it doesn't get lost
+          if ( button.tagName !== 'BUTTON' ) {
+            e.preventDefault();
+            toggleContent(e);
+            button.focus();
           }
           break;
 
         default:
           break;
       }
-    } // keyClose();
-
+    }; // keyToggle()
 
     init.call( this );
 
