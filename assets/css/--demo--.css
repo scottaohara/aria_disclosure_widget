@@ -14,9 +14,25 @@ header {
   padding-bottom: 1.5em;
 }
 
+h3 {
+	margin-top: 2em;
+}
+
 /* for disclosure button w/in a heading demo */
 h4 {
 	margin-bottom: 0;
+}
+
+pre {
+	background:  #000;
+	color:  #fff;
+	padding: .5em;
+	overflow: auto;
+}
+
+pre:focus {
+	outline: 2px solid #000;
+	outline-offset: 2px;
 }
 
 
@@ -105,9 +121,4 @@ h4 {
 
 #my_nav button[aria-expanded="true"]:after {
 	transform: rotate(-45deg)
-}
-
-
-.focus-within {
-	background: lightblue!important
 }

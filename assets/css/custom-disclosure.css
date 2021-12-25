@@ -1,0 +1,151 @@
+/** --------------------------------------------------------------------
+
+  Custom Disclosure Widget Styles
+
+--------------------------------------------------------------------- */
+
+disclosure-inline,
+disclosure-block {
+  position: relative;
+}
+
+disclosure-inline {
+  display: inline-block;
+}
+
+disclosure-block {
+  display: block;
+  margin: 1em 0;
+}
+
+disclosure-block > .disclosure__trigger,
+disclosure-block > h1 .disclosure__trigger,
+disclosure-block > h2 .disclosure__trigger,
+disclosure-block > h3 .disclosure__trigger,
+disclosure-block > h4 .disclosure__trigger,
+disclosure-block > h5 .disclosure__trigger,
+disclosure-block > h6 .disclosure__trigger {
+  display: block;
+  padding: .625em 1.825em .625em .625em;
+  width: 100%;
+}
+
+[data-insert-trigger] {
+  margin: 0;
+}
+
+[data-insert-trigger="inline"] > .disclosure__trigger {
+  padding: .5rem;
+  vertical-align: middle;
+}
+
+[data-insert-trigger="inline"] > .disclosure__trigger::after {
+  right: 0;
+  left: 0;
+}
+
+/**
+ * Trigger (button) Styles
+ */
+.disclosure__trigger {
+  background: none;
+  border: 1px solid rgba(0,0,0,.325);
+  cursor: default;
+  display: inline-block;
+  font-size: inherit;
+  line-height: normal;
+  margin: 0;
+  padding: .25em 1.75em .25em .5em;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  z-index: 1;
+}
+
+.disclosure__trigger[disabled] {
+  color: inherit;
+}
+
+.disclosure__trigger[disabled]::after {
+  opacity: .4;
+}
+
+.disclosure__trigger::after {
+  border-left: .35em solid transparent;
+  border-right: .35em solid transparent;
+  border-top: .35em solid #111;
+  bottom: 0;
+  content: "";
+  height: 0;
+  margin: auto;
+  position: absolute;
+  right: .5em;
+  top: 0;
+  transform: rotate(0deg);
+  transform-origin: center center;
+  transition: transform .2s ease-in-out;
+  width: 0;
+}
+
+.disclosure__trigger:not([disabled]):hover,
+.disclosure__trigger:focus {
+  background: #c12f48;
+  color: #fff;
+}
+
+.disclosure__trigger:not([disabled]):hover::after,
+.disclosure__trigger:focus::after {
+  border-top-color: #fff;
+}
+
+.disclosure__trigger[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.disclosure__trigger[aria-expanded][disabled] {
+  color: inherit;
+}
+
+/**
+ * Trigger modifiers
+ */
+[data-left-align] .disclosure__trigger {
+  padding: .25em .625em .25em 1.75em;
+}
+
+[data-left-align] .disclosure__trigger::after {
+  left: .5em;
+  right: auto;
+}
+
+
+/**
+ * Content Styles
+ */
+disclosure-content.is-hidden {
+  display: none;
+}
+
+disclosure-content {
+  background: #fafafa;
+  border: 1px solid;
+  display: block;
+  height: auto;
+  padding: .75em .5em;
+}
+
+.has-popup disclosure-content {
+  left: 0;
+  min-width: 14em;
+  position: absolute;
+  top: calc(100% + .25em);
+  z-index: 3;
+}
+
+disclosure-content > *:first-child {
+  margin-top: 0;
+}
+
+disclosure-content > *:last-child {
+  margin-bottom: 0;
+}
