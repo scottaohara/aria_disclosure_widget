@@ -5,13 +5,19 @@
     <title>
       ARIA Disclosure Widget
     </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1">
     <script>
       // remove no-js and add 'js' to the HTML
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
     </script>
     <link rel="stylesheet" href="assets/css/--demo--.css">
-    <link rel="stylesheet" href="assets/css/aria.disclosure.css">
+    <link rel="stylesheet" href="assets/css/custom-disclosure.css">
+    <style>
+      body {
+        padding: 2em;
+      }
+    </style>
   </head>
 
   <body id="body">
@@ -21,167 +27,223 @@
       <header>
         <h1>
           <abbr title="Accessible Rich Internet Applications">ARIA</abbr>
-          Disclosure Widget Patterns
+          Disclosure Widgets
         </h1>
         <p>
-          ...
+          A test page for different disclosure widgets you can make with this script.
         </p>
       </header>
 
-      <main aria-label="Demo Content">
+      <main>
+        <section>
+          <h2>Standard disclosure widgets</h2>
 
-        <article>
-          <h2>
-            Example patterns:
-          </h2>
+          <p>
+            Use either <code>disclosure-inline</code> (for <code>display: inline-block</code>) or <code>disclosure-block</code> (for <code>display: block</code>) custom elements as the wrappers.
+          </p>
 
-          <h3>
-            The most minimal
-          </h3>
-          <div data-disclosure="A generated button">
-            <p data-disclosure-content>
-              This content will turn into a disclosure
-              once the script runs.
-            </p>
+          <p>
+            Either wrapping element <strong>must</strong> contain a <code>&lt;disclosure-content</code> element. This element represents the content you want to show/hide.
+          </p>
+
+          <p>
+            A trigger (<code>&lt;button></code> element) will be auto-generated with the fallback text of "More info".
+          </p>
+
+          <pre role="group" aria-label="code example"><code>&lt;disclosure-inline>
+  &lt;disclosure-content>
+    ...
+  &lt;/disclosure-content>
+&lt;/disclosure-inline></code></pre>
+
+          <p><code>disclosure-inline</code></p>
+          <disclosure-inline>
+            <disclosure-content>
+              If the script didn't run, this content would have just been hanging out there for you to read.
+            </disclosure-content>
+          </disclosure-inline>
+
+          <pre role="group" aria-label="code example"><code>&lt;disclosure-block>
+  &lt;disclosure-content>
+    ...
+  &lt;/disclosure-content>
+&lt;/disclosure-block></code></pre>
+
+          <p><code>disclosure-block</code></p>
+          <disclosure-block>
+            <disclosure-content>
+              If the script didn't run, this content would have just been hanging out there for you to read.
+            </disclosure-content>
+          </disclosure-block>
+
+
+          <h3>Give your triggers unique labels</h3>
+
+          <p>
+            Use the <code>data-trigger</code> attribute on the disclosure parent element to specify a name for the auto-generated trigger (<code>&lt;button></code> element).
+          </p>
+
+          <pre role="group" aria-label="code example"><code>&lt;disclosure-inline
+  data-trigger="My Name!!!">
+  ...
+&lt;/disclosure-inline></code></pre>
+
+          <p>
+            <disclosure-inline data-trigger="My Name!!!">
+              <disclosure-content>
+                If the script didn't run, this content would have just been hanging out there for you to read.
+              </disclosure-content>
+            </disclosure-inline>
+          </p>
+
+
+          <h3>Adjust the down arrow position</h3>
+          <p>
+            Use the <code>data-left-align</code> attribute to have the down arrow / chevron appear prior to the trigger's visible label.
+          </p>
+
+          <div>
+            <disclosure-inline data-left-align data-trigger="And one with a left-aligned arrow">
+              <disclosure-content>
+                If the script didn't run, this content would have just been hanging out there for you to read.
+              </disclosure-content>
+            </disclosure-inline>
           </div>
 
 
-          <section>
-            <h3>
-              Block Disclosure
-            </h3>
-            <div id="ex" data-disclosure data-disclosure-type="block">
-              <span data-disclosure-btn>
-                A full width "button"
-              </span>
-              <div data-disclosure-content>
-                <p>
-                  Allows for a large hit area for the disclosure widget's
-                  trigger.
-                </p>
-                <p>
-                  <a href="#!">
-                    This link is here just for focus testing.
-                  </a>
-                </p>
-              </div>
-            </div>
-          </section>
+          <h3>Identify where to generate the trigger</h3>
+          <p>
+            Maybe you need more flexibility on where your disclosure widget trigger is generated.  Use the <code>data-insert-trigger</code> attribute to override the default placement, and instead inject the trigger into that particular element.
+          </p>
 
-          <section>
-            <h3>
-              Block Disclosure (heading)
-            </h3>
-            <div id="ex2" data-disclosure data-disclosure-type="block" data-disclosure-open data-disclosure-class="test-class">
-              <h4>
-                <button data-disclosure-btn>
-                  Disclosure button within a heading
-                </button>
-              </h4>
-              <div data-disclosure-content>
-                <p>
-                  This disclosure widget is opened by default. Because that's a thing that should be able to happen.
-                </p>
-
-                <p>
-                  Here's an example of a nested flyout disclosure widget:
-
-                  <span data-disclosure="I'm a flyout!" data-disclosure-type="flyout">
-                    <span data-disclosure-content>
-                      This example has a <a href="#">link within it</a>. Flyouts can
-                      be closed via the <kbd>ESC</kbd> key, as long as focus is on the <code>button</code> or within the revealed content.
-                      <br>
-                      Flyouts will auto-close if focus leaves the flyout.
-                    </span>
-                  </span>
-
-                  All of this is contained within a single paragraph.
-                </p>
-
-                <p>
-                  Here's an example of yet another flyout disclosure widget because testing:
-
-                  <span data-disclosure="I'm another flyout!" data-disclosure-hover data-disclosure-type="flyout">
-                    <span data-disclosure-content>
-                      This one doesn't have a link in it.
-                    </span>
-                  </span>
-
-                  All of this is contained within a single paragraph.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h3>
-              Disclosure Widgets can power navigations
-            </h3>
-
+          <disclosure-block id="ex">
             <p>
-              This example showcases how a disclosure widget can be used to create
-              an off-site navigation. Using the <code>data-disclosure-manual-classes</code> to
-              not add any of the default classes to the widget, and to instead use totally custom
-              classes for the component.
+              This text exists as the first child element of the <code>disclosure-block</code>. Following this paragraph is a <code>&lt;div data-insert-trigger></code>. The trigger will be injected into that element.
             </p>
+            <div data-insert-trigger>
+              Find out more
+            </div>
+            <disclosure-content>
+              <p>
+                As another example, what follows is a nested disclosure widget, but its trigger has been disabled by default (using the <code>data-disabled</code> attribute on the parent <code>&lt;disclosure-inlin></code> element).
+              </p>
+              <p>
+                <a href="#!">
+                  This link is here just for focus testing.
+                </a>
+              </p>
 
-            <nav aria-label="example" id="my_nav" data-disclosure-type="flyout" data-disclosure data-disclosure-manual-classes>
-              <button data-disclosure-btn hidden>
-                Menu
-              </button>
+              <disclosure-inline id="ex2a" data-disabled data-trigger="I don't work">
+                <disclosure-content>
+                  <p>
+                    Hey! You weren't supposed to get to me...
+                  </p>
+                </disclosure-content>
+              </disclosure-inline>
+            </disclosure-content>
+          </disclosure-block>
 
-              <div data-disclosure-content>
-                <ul>
-                  <li><a href="#">Link 1</a></li>
-                  <li><a href="#">Link 2</a></li>
-                  <li><a href="#">Link 3</a></li>
-                </ul>
-              </div>
-            </nav>
+          <h4>Make it 'pop'</h4>
+          <p>
+            Use the <code>data-popup</code> attribute to have the disclosure widget content set to position absolute. The popup content will allow for keyboard focus to enter it and interact with the content. Tabbing away will close the disclosure widget. The <kbd>esc</kbd> key will also close the disclosure widget when keyboard focus is on the trigger, or within the disclosure widget's content panel.
+          </p>
 
-            <p>
-              <a href="#">Focusable element after the navigation</a>.
-            </p>
-          </section>
-        </article>
+          <pre role="group" aria-label="code example"><code>&lt;disclosure-inline data-popup>
+  &lt;disclosure-content role=note>
+    ...
+  &lt;/disclosure-content>
+&lt;/disclosure-inline></code></pre>
 
+          <disclosure-inline data-trigger="Let's make it pop" data-popup>
+            <disclosure-content role="note">
+              <p>I have a <code>role=note</code>. You don't have to add this, but if you'd like to learn more about this role, <a href="https://www.w3.org/TR/wai-aria-1.2/#note">check out the ARIA specification</a>.</p>
+            </disclosure-content>
+          </disclosure-inline>
+
+
+          <h4>Inject a trigger into a heading</h4>
+          <p>
+            The following are some examples of ways to have a disclosure widget trigger within a heading. The first of which is a button as a sibling to the heading's text.
+          </p>
+          <p>
+            The second example is a button that takes the entirety of the heading's content and includes it as child content of the injected button element. <strong>Make sure</strong> you use this with caution, as you don't want links or other interactive elements as child elements to the injected button.
+          </p>
+
+          <pre role="group" aria-label="code example"><code>&lt;disclosure-inline>
+  &lt;h5>
+    Heading with adjacent toggle
+    &lt;span data-insert-trigger="inline">&lt;/span>
+  &lt;/h5>
+  &lt;disclosure-content>
+    ...
+  &lt;/disclosure-content>
+&lt;/disclosure-inline></code></pre>
+
+          <disclosure-inline id="ex2">
+            <h5 style="margin-bottom: 0;">
+              Heading with adjacent toggle
+              <span data-insert-trigger="inline"></span>
+            </h5>
+            <disclosure-content>
+              <p>
+                Sometimes you don't want your full heading to be clickable. Sometimes.
+              </p>
+            </disclosure-content>
+          </disclosure-inline>
+
+
+          <pre role="group" aria-label="code example"><code>&lt;disclosure-block data-open>
+  &lt;h5 data-insert-trigger>
+    &lt;img src=... alt style=...>
+    &lt;span style=...>...&lt;/span>
+  &lt;/h5>
+  &lt;disclosure-content>
+    ...
+  &lt;/disclosure-content>
+&lt;/disclosure-block></code></pre>
+
+          <div>
+            <disclosure-block data-open class="test-class">
+              <h5 data-insert-trigger>
+                <img src="assets/test.svg" alt="" style="width: 2em; height: 2em; vertical-align: middle; background: #fff; border-radius: 100%; overflow: hidden; margin-right: .25em; border: 1px solid #000;">
+                <span style="vertical-align: middle;">Disclosure button within a heading</span>
+              </h5>
+              <disclosure-content>
+                <p>
+                  This disclosure widget is opened by default.
+                  Because that's a thing that should be able to happen.
+                </p>
+
+                <div>
+                  Here's an example of a nested popup disclosure widget:
+
+                  <disclosure-inline data-trigger="I have a popup!" data-popup data-inline>
+                    <disclosure-content>
+                      <p>
+                        This example has a <a href="#">link within it</a>.
+                        popups can be closed via the <kbd>ESC</kbd> key, as
+                        long as focus is on the <code>button</code> or within
+                        the revealed content.
+                      </p>
+                        <p>
+                        popups will auto-close if focus leaves the popup.
+                      </p>
+                    </disclosure-content>
+                  </disclosure-inline>
+                </div>
+              </disclosure-content>
+            </disclosure-block>
+          </div>
+        </section>
       </main>
-
     </div>
 
     <script src="index.js"></script>
     <script>
-      var disclosure = '[data-disclosure]';
-      var els = document.querySelectorAll(disclosure);
-
-      // Generate all tab instances
-      for ( var i = 0; i < els.length; i++ ) {
-        var dis = new A11Ydisclosure( els[i] );
-      }
-
-      // navigation example specific:
-      var body = document.getElementById('body');
-      var nav = document.getElementById('my_nav');
-      var navBtn = nav.querySelector('button');
-      var navBar = nav.querySelector('[data-disclosure-content]');
-      var expandedClass = 'nav-expanded';
-
-      navBtn.addEventListener('click', function () {
-        if ( body.classList.contains(expandedClass) ) {
-          closeNav();
-        }
-        else {
-          openNav()
-        }
-      });
-
-      var openNav = function () {
-        body.classList.add(expandedClass);
-        document.addEventListener('click', docClick, false);
-      }
-
-      var closeNav = function () {
-        body.classList.remove(expandedClass);
+      const els = document.querySelectorAll('disclosure-inline, disclosure-block');
+      // Generate all disclosure instances
+      for ( let i = 0; i < els.length; i++ ) {
+        ARIAdw(els[i])
       }
     </script>
   </body>
