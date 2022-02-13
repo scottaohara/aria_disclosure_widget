@@ -42,11 +42,13 @@
           <h2>Standard disclosure widgets</h2>
 
           <p>
-            Use either <code>disclosure-inline</code> (for <code>display: inline-block</code>) or <code>disclosure-block</code> (for <code>display: block</code>) custom elements as the wrappers.
+            Use either <code>disclosure-inline</code> (for <code>display: inline-block</code>) or 
+            <code>disclosure-block</code> (for <code>display: block</code>) custom elements as the wrappers.
           </p>
 
           <p>
-            Either wrapping element <strong>must</strong> contain a <code>&lt;disclosure-content</code> element. This element represents the content you want to show/hide.
+            Either wrapping element <strong>must</strong> contain a <code>&lt;disclosure-content></code> element. 
+            This element represents the content you want to show/hide.
           </p>
 
           <p>
@@ -81,9 +83,9 @@
 
 
           <h3>Give your triggers unique labels</h3>
-
           <p>
-            Use the <code>data-trigger</code> attribute on the disclosure parent element to specify a name for the auto-generated trigger (<code>&lt;button></code> element).
+            Use the <code>data-trigger</code> attribute on the disclosure parent element to specify a name for 
+            the auto-generated trigger (<code>&lt;button></code> element).
           </p>
 
           <pre role="group" aria-label="code example"><code>&lt;disclosure-inline
@@ -116,19 +118,25 @@
 
           <h3>Identify where to generate the trigger</h3>
           <p>
-            Maybe you need more flexibility on where your disclosure widget trigger is generated.  Use the <code>data-insert-trigger</code> attribute to override the default placement, and instead inject the trigger into that particular element.
+            Maybe you need more flexibility on where your disclosure widget trigger is generated.  
+            Use the <code>data-insert-trigger</code> attribute to override the default placement, 
+            and instead inject the trigger into that particular element.
           </p>
 
           <disclosure-block id="ex">
             <p>
-              This text exists as the first child element of the <code>disclosure-block</code>. Following this paragraph is a <code>&lt;div data-insert-trigger></code>. The trigger will be injected into that element.
+              This text exists as the first child element of the <code>disclosure-block</code>. 
+              Following this paragraph is a <code>&lt;div data-insert-trigger></code>. 
+              The trigger will be injected into that element.
             </p>
             <div data-insert-trigger>
               Find out more
             </div>
             <disclosure-content>
               <p>
-                As another example, what follows is a nested disclosure widget, but its trigger has been disabled by default (using the <code>data-disabled</code> attribute on the parent <code>&lt;disclosure-inlin></code> element).
+                As another example, what follows is a nested disclosure widget, but its trigger 
+                has been disabled by default (using the <code>data-disabled</code> attribute on 
+                the parent <code>&lt;disclosure-inlin></code> element).
               </p>
               <p>
                 <a href="#!">
@@ -148,7 +156,10 @@
 
           <h4>Make it 'pop'</h4>
           <p>
-            Use the <code>data-popup</code> attribute to have the disclosure widget content set to position absolute. The popup content will allow for keyboard focus to enter it and interact with the content. Tabbing away will close the disclosure widget. The <kbd>esc</kbd> key will also close the disclosure widget when keyboard focus is on the trigger, or within the disclosure widget's content panel.
+            Use the <code>data-popup</code> attribute to have the disclosure widget content absolutely positioned. 
+            The popup content will allow for keyboard focus to enter it and interact with the content. 
+            Tabbing away will close the disclosure widget. The <kbd>Esc</kbd> key will also close the disclosure widget 
+            when keyboard focus is on the trigger, or within the disclosure widget's content panel.
           </p>
 
           <pre role="group" aria-label="code example"><code>&lt;disclosure-inline data-popup>
@@ -166,10 +177,13 @@
 
           <h4>Inject a trigger into a heading</h4>
           <p>
-            The following are some examples of ways to have a disclosure widget trigger within a heading. The first of which is a button as a sibling to the heading's text.
+            The following are some examples of ways to have a disclosure widget trigger within a heading. 
+            The first of which is a button as a sibling to the heading's text.
           </p>
           <p>
-            The second example is a button that takes the entirety of the heading's content and includes it as child content of the injected button element. <strong>Make sure</strong> you use this with caution, as you don't want links or other interactive elements as child elements to the injected button.
+            The second example is a button that takes the entirety of the heading's content and includes it as 
+            child content of the injected button element. <strong>Make sure</strong> you use this with caution, 
+            as you don't want links or other interactive elements as child elements to the injected button.
           </p>
 
           <pre role="group" aria-label="code example"><code>&lt;disclosure-inline>
@@ -208,7 +222,14 @@
           <div>
             <disclosure-block data-open class="test-class">
               <h5 data-insert-trigger>
-                <img src="assets/test.svg" alt="" style="width: 2em; height: 2em; vertical-align: middle; background: #fff; border-radius: 100%; overflow: hidden; margin-right: .25em; border: 1px solid #000;">
+                <img src="assets/test.svg" alt="" 
+                     style="width: 2em; height: 2em; 
+                            vertical-align: middle; 
+                            background: #fff; 
+                            border-radius: 100%; 
+                            overflow: hidden;
+                            margin-right: .25em; 
+                            border: 1px solid #000;">
                 <span style="vertical-align: middle;">Disclosure button within a heading</span>
               </h5>
               <disclosure-content>
@@ -216,19 +237,18 @@
                   This disclosure widget is opened by default.
                   Because that's a thing that should be able to happen.
                 </p>
-
                 <div>
-                  Here's an example of a nested popup disclosure widget:
+                  <p>Here's an example of a nested popup disclosure widget:</p>
 
                   <disclosure-inline data-trigger="I have a popup!" data-popup data-inline>
                     <disclosure-content>
                       <p>
                         This example has a <a href="#">link within it</a>.
-                        popups can be closed via the <kbd>ESC</kbd> key, as
-                        long as focus is on the <code>button</code> or within
+                        popups can be closed via the <kbd>Esc</kbd> key, as
+                        long as focus is on the <code>&lt;button></code> or within
                         the revealed content.
                       </p>
-                        <p>
+                      <p>
                         popups will auto-close if focus leaves the popup.
                       </p>
                     </disclosure-content>
@@ -251,4 +271,3 @@
     </script>
   </body>
 </html>
-
