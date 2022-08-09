@@ -85,7 +85,7 @@ The following attributes are available to use on the wrapping `<disclosure-block
 * `data-open` – Use to open a disclosure widget by default.
 * `data-disabled` - Will add a `disabled` attribute to the generated `<button>`.
 * `data-left-align` - Will render the down arrow / chevron on the left of the `<button>`, rather than the default right position.
-* `data-popup` - The `<disclosure-content>` will be displayed as a "popup". If keyboard focus is detected outside of the widget, the popup content will auto-collapse and the `<button>` will return to the `aria-expanded=false` state.
+* `data-popup` - The `<disclosure-content>` will be displayed as a faux "popup". If keyboard focus is detected outside of the widget, the popup content will auto-collapse and the `<button>` will return to the `aria-expanded=false` state. When identified as a "popup", the content panel will be provided a `tabindex=-1` and a `role=note`. Comments describing why are provided in the JavaScript file.
 
 
 ## Keyboard controls
