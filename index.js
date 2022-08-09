@@ -47,12 +47,6 @@ const ARIAdw = function ( inst, options ) {
     setupContent();
 
     trigger.addEventListener('click', toggleEvent);
-
-    if ( el.hasAttribute(_options.popupAttr) ) {
-      el.classList.add('has-popup');
-      el.addEventListener('focusout', focusOutEvent, false);
-      el.addEventListener('keydown', escEvent, false);
-    }
   };
 
 
@@ -120,10 +114,21 @@ const ARIAdw = function ( inst, options ) {
 
 
   /**
-   * Function to hide content that has not been
+   * Function to hide content panels which have not been
    * specified to be revealed by default.
    *
    * Assigns generated IDs to the content container.
+   *
+   * If specified as a 'popup', then provide the content container
+   * a role=note and tabindex=-1. 1st, so that the element exposes a
+   * role which "makes sense" without having an accName (because if
+   * using a generic, then the contents of the element would become the
+   * generic's accname in chromium browsers... and that's bad.
+   * and 2, because without the tabindex=-1 (which is what would make
+   * the generic try to get its name from contents) the popup will
+   * revert to the hidden state due to the focusout function.
+   * That function could probably just be smarter, but this is how
+   * this is being solved for now.
    */
   const setupContent = function () {
     if ( !expandedState ) {
@@ -131,6 +136,14 @@ const ARIAdw = function ( inst, options ) {
     }
     if ( !content.id ) {
       content.id = triggerID + '_content';
+    }
+    
+    if ( el.hasAttribute(_options.popupAttr) ) {
+      content.tabIndex = '-1'; 
+      content.setAttribute('role', 'note');
+      el.classList.add('has-popup');
+      el.addEventListener('focusout', focusOutEvent, false);
+      el.addEventListener('keydown', escEvent, false);
     }
   };
 
