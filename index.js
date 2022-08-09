@@ -4,7 +4,7 @@
    * all your web content.
    *
    * Author: Scott O'Hara
-   * Version: 2.0.0
+   * Version: 2.0.1
    * License: https://github.com/scottaohara/aria_disclosure_widget/blob/master/LICENSE
    */
 
